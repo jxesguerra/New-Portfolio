@@ -3445,7 +3445,7 @@ video {
     display: none;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 860px) {
   .menu-toggle {
     display: grid;
     place-items: center;
@@ -3483,6 +3483,11 @@ video {
     left: auto;
     right: 0;
     bottom: 50%;
+  }
+  .hero .hero-portrait {
+    margin-top: 96px;
+    width: clamp(240px, 68vw, 360px);
+    align-self: center;
   }
 }
 @media (max-width: 380px) {
