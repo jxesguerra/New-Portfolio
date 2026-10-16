@@ -4560,3 +4560,32 @@ html.lite[data-theme="light"] .glass {
 :root[data-theme="light"] .project-grid .project-links button.text-link:hover {
   background: oklch(0.8 0.15 165) !important;
 }
+
+/* ---- Same colors on every screen size / mode ---- */
+.project-grid .project-expand,
+html.lite .project-grid .project-expand {
+  background: oklch(0.86 0.176 94) !important;
+  color: oklch(0.2 0.045 285) !important;
+  border-color: oklch(0.55 0.15 65) !important;
+}
+.project-grid .project-expand .expand-label,
+.project-grid .project-expand .icon {
+  color: oklch(0.2 0.045 285) !important;
+}
+.project-grid .project-expand:hover,
+html.lite .project-grid .project-expand:hover {
+  background: oklch(0.8 0.15 165) !important;
+  border-color: oklch(0.45 0.12 172) !important;
+}
+.project-grid .open-hint,
+html.lite .project-grid .open-hint {
+  background: oklch(0.8 0.15 165) !important;
+  color: oklch(0.2 0.045 285) !important;
+}
+html.lite .project-grid .project-links button.text-link {
+  background: linear-gradient(
+    90deg,
+    oklch(0.91 0.155 163 / 0.16),
+    oklch(0.86 0.176 94 / 0.16)
+  );
+}
