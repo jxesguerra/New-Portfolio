@@ -4594,3 +4594,56 @@ html.lite .project-grid .project-links button.text-link {
     oklch(0.86 0.176 94 / 0.16)
   );
 }
+
+/* ===== Contact form: email verification ===== */
+.verify-row {
+  display: flex;
+  gap: 10px;
+}
+.verify-row input {
+  flex: 1;
+  min-width: 0;
+  letter-spacing: 0.25em;
+}
+.verify-row input::placeholder {
+  letter-spacing: normal;
+}
+.verify-row .btn {
+  white-space: nowrap;
+}
+.verify-row .btn:disabled,
+.submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.verify-status {
+  display: block;
+  min-height: 1.2em;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+.verify-status[data-state="error"],
+.form-feedback[data-state="error"] {
+  color: #ff8f8f;
+  opacity: 1;
+}
+.verify-status[data-state="ok"],
+.form-feedback[data-state="ok"] {
+  color: var(--mint, #5cffc4);
+}
+:root[data-theme="light"] .verify-status[data-state="error"],
+:root[data-theme="light"] .form-feedback[data-state="error"] {
+  color: #b3261e;
+}
+:root[data-theme="light"] .verify-status[data-state="ok"],
+:root[data-theme="light"] .form-feedback[data-state="ok"] {
+  color: #0b7a55;
+}
+.hp {
+  position: absolute !important;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}

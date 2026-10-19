@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="theme-color" content="#1b1233" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>John Xairon V. Esguerra - QA Tester | Designer | Developerr</title>
+    <title>John Xairon V. Esguerra - QA Tester | Designer | Developer</title>
     <meta
       name="description"
       content="Portfolio of John Xairon V. Esguerra, a 4th-year BS Computer Science student: skills, projects, and contact."
@@ -34,7 +34,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="John Xairon V. Esguerra - QA Tester | Designer | Developerr"
+      content="John Xairon V. Esguerra - QA Tester | Designer | Developer"
     />
     <meta
       name="twitter:description"
@@ -388,7 +388,7 @@
         </button>
         <div class="nav-links" id="nav-links">
           <a href="#intro" class="active">01 / Home</a
-          ><a href="#stack">02 / Tech Stock</a
+          ><a href="#stack">02 / Tech Stack</a
           ><a href="#projects">03 / Projects</a
           ><a href="#certificates">04 / Certificates</a
           ><a href="#contact">05 / Contact</a>
@@ -889,7 +889,7 @@
         <div class="wrap section-content">
           <div class="section-top reveal">
             <div>
-              <span class="paint-label">Tech Stock: Bukas Daily</span
+              <span class="paint-label">Tech Stack: Bukas Daily</span
               ><span class="baybayin" aria-hidden="true">ᜊᜓᜃ᜵</span>
               <h2 class="section-heading" id="stack-title">
                 The tools in my <span class="mint">kubo.</span>
@@ -1192,6 +1192,36 @@
                 maxlength="150"
               />
             </div>
+            <div class="field verify-field">
+              <label for="code">Email verification</label>
+              <div class="verify-row">
+                <input
+                  id="code"
+                  name="code"
+                  inputmode="numeric"
+                  pattern="[0-9]{6}"
+                  maxlength="6"
+                  placeholder="6-digit code"
+                  autocomplete="one-time-code"
+                  disabled
+                />
+                <button type="button" class="btn" id="send-code">
+                  Send code
+                </button>
+              </div>
+              <small
+                class="verify-status"
+                id="verify-status"
+                role="status"
+              ></small>
+            </div>
+            <input
+              class="hp"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
             <div class="field">
               <label for="message">Your message</label
               ><textarea
@@ -1209,6 +1239,12 @@
             </button>
             <p class="form-note">
               Made with care. Sent through your email app.
+            </p>
+            <p>
+              Prefer email?
+              <a href="mailto:johnxaironesguerra@gmail.com"
+                >johnxaironesguerra@gmail.com</a
+              >
             </p>
             <p
               class="form-feedback"

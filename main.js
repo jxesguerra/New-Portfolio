@@ -266,22 +266,159 @@ $$("[data-repo]").forEach((a) => {
       notify("Add your GitHub link in content.js to connect this button.");
     });
 });
-// A self-contained file cannot deliver email: be honest about the hand-off.
-$("#contact-form").addEventListener("submit", (e) => {
-  e.preventDefault();
+// Contact form: the visitor must verify their email with a one-time code.
+(() => {
+  const API = "/.netlify/functions/";
+  const form = $("#contact-form");
   const feedback = $("#form-feedback");
-  feedback.hidden = false;
-  if (!CONTENT.email) {
-    feedback.textContent =
-      "Your message is ready, but this sample portfolio needs an owner email address before it can be sent.";
-    return;
-  }
-  const data = new FormData(e.currentTarget);
-  const body = `Kumusta ${CONTENT.name}!\n\n${data.get("message")}\n\nFrom: ${data.get("name")}\nReply to: ${data.get("email")}`;
-  window.location.href = `mailto:${CONTENT.email}?subject=${encodeURIComponent(String(data.get("subject")))}&body=${encodeURIComponent(body)}`;
-  feedback.textContent =
-    "Salamat! Your email draft is ready. Please finish sending it in your email app.";
-});
+  const emailEl = $("#sender-email");
+  const codeEl = $("#code");
+  const sendBtn = $("#send-code");
+  const status = $("#verify-status");
+  const submitBtn = form.querySelector(".submit");
+  const honeypot = form.querySelector('[name="website"]');
+  let token = "";
+  let verifiedFor = "";
+  let cooldownTimer = null;
+
+  const show = (el, msg, state) => {
+    el.hidden = false;
+    el.textContent = msg;
+    el.dataset.state = state || "";
+  };
+  const post = async (name, body) => {
+    const res = await fetch(API + name, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    let data = {};
+    try {
+      data = await res.json();
+    } catch {}
+    if (!res.ok)
+      throw new Error(data.error || "Something went wrong. Please try again.");
+    return data;
+  };
+  const startCooldown = (seconds) => {
+    clearInterval(cooldownTimer);
+    let left = seconds;
+    sendBtn.disabled = true;
+    const tick = () => {
+      if (left <= 0) {
+        clearInterval(cooldownTimer);
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Resend code";
+        return;
+      }
+      sendBtn.textContent = `Resend in ${left}s`;
+      left--;
+    };
+    tick();
+    cooldownTimer = setInterval(tick, 1000);
+  };
+  const resetVerification = () => {
+    token = "";
+    verifiedFor = "";
+    codeEl.value = "";
+    codeEl.disabled = true;
+    clearInterval(cooldownTimer);
+    sendBtn.disabled = false;
+    sendBtn.textContent = "Send code";
+    status.textContent = "";
+    status.dataset.state = "";
+  };
+
+  // Changing the email after requesting a code invalidates that code.
+  emailEl.addEventListener("input", () => {
+    if (token && emailEl.value.trim().toLowerCase() !== verifiedFor)
+      resetVerification();
+  });
+
+  sendBtn.addEventListener("click", async () => {
+    if (!emailEl.checkValidity() || !emailEl.value.trim()) {
+      emailEl.reportValidity();
+      return;
+    }
+    const email = emailEl.value.trim().toLowerCase();
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending…";
+    try {
+      const data = await post("send-code", { email, website: honeypot.value });
+      token = data.token || "";
+      verifiedFor = email;
+      codeEl.disabled = false;
+      codeEl.focus();
+      show(
+        status,
+        `Code sent to ${email}. Check your inbox (and spam). It expires in 10 minutes.`,
+        "ok",
+      );
+      startCooldown(60);
+    } catch (err) {
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send code";
+      show(
+        status,
+        err instanceof TypeError
+          ? "Couldn't reach the server. Please try again."
+          : err.message,
+        "error",
+      );
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    feedback.hidden = true;
+    const email = emailEl.value.trim().toLowerCase();
+    if (!token || email !== verifiedFor) {
+      show(
+        status,
+        "Please verify your email first: click “Send code”, then enter the code.",
+        "error",
+      );
+      sendBtn.focus();
+      return;
+    }
+    if (!/^\d{6}$/.test(codeEl.value.trim())) {
+      show(status, "Enter the 6-digit code we emailed you.", "error");
+      codeEl.focus();
+      return;
+    }
+    const data = new FormData(form);
+    submitBtn.disabled = true;
+    try {
+      await post("send-message", {
+        name: data.get("name"),
+        email,
+        subject: data.get("subject"),
+        message: data.get("message"),
+        code: codeEl.value.trim(),
+        token,
+        website: data.get("website"),
+      });
+      form.reset();
+      resetVerification();
+      show(
+        feedback,
+        "Salamat! Your message was sent. I'll reply to your email soon.",
+        "ok",
+      );
+    } catch (err) {
+      show(
+        feedback,
+        err instanceof TypeError
+          ? "Couldn't reach the server. Please try again."
+          : err.message,
+        "error",
+      );
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+})();
+
 $(".menu-toggle").addEventListener("click", () => {
   const open = $("#nav-links").classList.toggle("open");
   $(".menu-toggle").setAttribute("aria-expanded", String(open));
