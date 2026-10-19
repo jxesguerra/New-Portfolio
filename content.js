@@ -196,5 +196,14 @@ const CONTENT = {
   ],
   // CERTIFICATES — leave empty to hide the section. To show it, add one line per certificate:
   // { title:'Certificate title', issuer:'ISSUING ORGANIZATION', date:'2026', credential:'', image:'cert-1.jpg', link:'https://...' }
-  certificates: [],
+    certificates: [
+    { title: "Career Boost with Power BI and AI", issuer: "Exodus Experts", date: "Oct 2025", credential: "C3CDE7B2", image: "certificates/cert-exodus-power-bi-ai.webp", link: "https://test.careerboostwithpowerbi.com/validation?code=C3CDE7B2" },
+    { title: "Hands on Encryption: Programming Secure Data with Python", issuer: "Ethel Programming Computer Programming Services (EPCPS)", date: "Jun 2025", credential: "", image: "certificates/cert-python-encryption.webp", link: "" },
+    { title: "DevOps and CI/CD", issuer: "PCU College of Informatics · COI Seminar Series", date: "May 2025", credential: "", image: "certificates/cert-devops-cicd.webp", link: "" },
+    { title: "Web3 Technology", issuer: "PCU College of Informatics · COI Seminar Series", date: "May 2025", credential: "", image: "certificates/cert-web3.webp", link: "" },
+    { title: "Freelancing in Tech", issuer: "PCU College of Informatics · COI Seminar Series", date: "May 2025", credential: "", image: "certificates/cert-freelancing-in-tech.webp", link: "" },
+    { title: "Power BI Bootcamp", issuer: "PCU Society of Computing Technologists · COI Bootcamp", date: "Sep 2024", credential: "", image: "certificates/cert-bootcamp-power-bi.webp", link: "" },
+    { title: "PHP Bootcamp", issuer: "PCU Society of Computing Technologists · COI Bootcamp", date: "Sep 2024", credential: "", image: "certificates/cert-bootcamp-php.webp", link: "" },
+    { title: "Machine Learning Bootcamp", issuer: "PCU Society of Computing Technologists · COI Bootcamp", date: "Sep 2024", credential: "", image: "certificates/cert-bootcamp-machine-learning.webp", link: "" },
+  ],
 };
